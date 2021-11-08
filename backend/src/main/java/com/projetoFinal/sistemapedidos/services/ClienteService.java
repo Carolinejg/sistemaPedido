@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.projetoFinal.sistemapedidos.dto.ClienteDTO;
+import com.projetoFinal.sistemapedidos.dto.ProdutoDTO;
 import com.projetoFinal.sistemapedidos.entities.Cliente;
+import com.projetoFinal.sistemapedidos.entities.Produto;
 import com.projetoFinal.sistemapedidos.repositories.ClienteRepository;
 import com.projetoFinal.sistemapedidos.services.exceptions.ResourceNotFoundException;
 
@@ -45,6 +49,21 @@ public class ClienteService {
 		Cliente entity = obj.orElseThrow(()->new ResourceNotFoundException("Entidade não encontrada"));
 		 
 		return new ClienteDTO(entity);
+	}
+	
+	@Transactional
+	public ClienteDTO update(int id, ClienteDTO dto) {
+		try {
+			Cliente entity = repository.getOne(id);
+			entity.setDocumento(dto.getDocumento());
+			entity.setNome(dto.getNome());
+			entity.setTipo(dto.getTipo());
+			entity = repository.save(entity);
+			return new ClienteDTO(entity);
+			
+		}catch(EntityNotFoundException e) {
+			throw new  ResourceNotFoundException("Id não encontrado "+id);
+		}
 	}
 
 }
