@@ -2,6 +2,7 @@ package com.projetoFinal.sistemapedidos.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.projetoFinal.sistemapedidos.dto.ClienteDTO;
 import com.projetoFinal.sistemapedidos.entities.Cliente;
-import com.projetoFinal.sistemapedidos.entities.Produto;
 import com.projetoFinal.sistemapedidos.repositories.ClienteRepository;
+import com.projetoFinal.sistemapedidos.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ClienteService {
@@ -37,6 +38,13 @@ public class ClienteService {
 		}
 		
 		return listDto;
+	}
+	
+	public ClienteDTO findById(int id) {
+		Optional<Cliente>obj = repository.findById(id);// optional evita trabalhar com valor nulo
+		Cliente entity = obj.orElseThrow(()->new ResourceNotFoundException("Entidade não encontrada"));
+		 
+		return new ClienteDTO(entity);
 	}
 
 }
