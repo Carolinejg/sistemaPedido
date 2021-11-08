@@ -1,5 +1,8 @@
 package com.projetoFinal.sistemapedidos.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,18 @@ public class ProdutoService {
 		
 		return new ProdutoDTO(entity);
 		
+	}
+
+
+	public List<ProdutoDTO> findAll() {
+		List<Produto> list= repository.findAll();
+		List<ProdutoDTO>listDto = new ArrayList<>();
+		
+		for(Produto cob : list) {
+			listDto.add(new ProdutoDTO(cob));
+		}
+		
+		return listDto;
 	}
 
 }
