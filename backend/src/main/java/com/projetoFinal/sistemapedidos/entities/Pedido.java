@@ -17,10 +17,10 @@ public class Pedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//para ser auto incremento
-	public int id;
+	private int id;
 	@ManyToOne //cliente pode ter muitos pedidos
 	@JoinColumn(nullable = false,name="id_cliente")//campo obrigatorio
-    public Cliente cliente;
+	private Cliente cliente;
 	@JoinColumn(nullable = false)
 	private Instant data;  
 	@JoinColumn(nullable = false)

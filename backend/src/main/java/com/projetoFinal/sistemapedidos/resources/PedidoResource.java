@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.projetoFinal.sistemapedidos.dto.ClienteDTO;
 import com.projetoFinal.sistemapedidos.dto.PedidoDTO;
 import com.projetoFinal.sistemapedidos.services.PedidoService;
 
