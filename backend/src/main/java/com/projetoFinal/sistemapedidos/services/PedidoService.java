@@ -7,12 +7,15 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.projetoFinal.sistemapedidos.dto.PedidoDTO;
 import com.projetoFinal.sistemapedidos.entities.Pedido;
 import com.projetoFinal.sistemapedidos.repositories.PedidoRepository;
+import com.projetoFinal.sistemapedidos.services.exceptions.DatabaseException;
 import com.projetoFinal.sistemapedidos.services.exceptions.ResourceNotFoundException;
 
 
@@ -70,6 +73,18 @@ public class PedidoService {
 		}catch(EntityNotFoundException e) {
 			throw new  ResourceNotFoundException("Id não encontrado "+id);
 		}
+	}
+
+	public void delete(int id) {
+		try {
+			repository.deleteById(id);
+			
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id não encontrado "+id);
+		}catch(DataIntegrityViolationException e) {
+			throw new DatabaseException("Violação de integridade do banco");
+		}
+		
 	}
 
 }
